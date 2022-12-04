@@ -3,8 +3,10 @@
     <nav>
         <ul class="nav-links">
             <li><a href="{% url 'home' %}" class="home"><i class="uil uil-home"></i> Home</a></li>
+            {% comment%}
             <li><a href="{% url 'make_transaction' %}" class="transact"><i class="uil uil-exchange-alt"></i> Transactions</a></li>
             <li><a href="{% url 'history' %}" class="history"><i class="uil uil-history"></i> History</a></li>
+            {% endcomment%}
         </ul>
         
     </nav>

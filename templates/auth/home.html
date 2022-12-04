@@ -13,10 +13,12 @@
     <div class="grid">
         <div class="links">
             <div>
-                <a href="{% url 'make_transaction' %}">
-                    <i class="uil uil-arrow-circle-right"></i>
-                    <span>Send money</span>
-                </a>
+            {% comment%}
+            <a href="{% url 'make_transaction' %}">
+                <i class="uil uil-arrow-circle-right"></i>
+                <span>Send money</span>
+            </a>
+            {% endcomment%}
 
             </div>
             <div>
@@ -72,7 +74,9 @@
                     {% endif %}
                 </tbody>
             </table>
+            {% comment%}
             <a href="{% url 'history' %}" class="view-all-link">View All <i class="uil uil-angle-right"></i></a>
+            {% endcomment%}
         </div>
     </div>
 </div>

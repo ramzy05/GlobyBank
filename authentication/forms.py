@@ -1,7 +1,10 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .models import Account
-from django_countries.widgets import CountrySelectWidget
+from django_countries.data import COUNTRIES
+
+COUNTRIES_LIST = [('', 'Choose the country')]+[(key, value)
+                                               for key, value in COUNTRIES.items()]
 
 
 class CreateAccountForm(UserCreationForm):
@@ -28,19 +31,24 @@ class CreateAccountForm(UserCreationForm):
             'placeholder': 'Doe',
         }
     ))
-    country = forms.CharField(
-        label='Country', required=False, widget=CountrySelectWidget)
+    country = forms.CharField(label='Country', required=False, widget=forms.Select(
+        choices=COUNTRIES_LIST,
+        attrs={
+            'maxlength': 100,
+            'placeholder': '',
+        }
+    ))
 
     password1 = forms.CharField(label='Password', required=False, widget=forms.PasswordInput(
         attrs={
             'maxlength': 400,
-            'placeholder': '',
+            'placeholder': 'Enter a password',
         }
     ))
     password2 = forms.CharField(label='Confirm Password', required=False, widget=forms.PasswordInput(
         attrs={
             'maxlength': 400,
-            'placeholder': '',
+            'placeholder': 'Confirm the password',
         }
     ))
 
