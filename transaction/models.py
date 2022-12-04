@@ -20,6 +20,10 @@ class AbstractTransaction(models.Model):
 class Transaction(AbstractTransaction):
     receiver = models.ForeignKey(
         Account, related_name='receiver', on_delete=models.SET_NULL, null=True, blank=True)
+    amount_received = models.DecimalField(
+        max_digits=100, decimal_places=2, default=0.00)
+    amount_sent = models.DecimalField(
+        max_digits=100, decimal_places=2, default=0.00)
 
 
 class SelfTransaction(AbstractTransaction):
