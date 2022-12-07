@@ -21,7 +21,7 @@ def home_view(request):
 @login_required(login_url='login')
 def transfer_view(request):
     user = request.user
-    min_amount = 10
+    min_amount = 5
     max_amount = user.balance
     users = Account.objects.exclude(username=user.username)
 
@@ -65,7 +65,7 @@ def transfer_view(request):
 @login_required(login_url='login')
 def recharge_withdraw_view(request, action):
     user = request.user
-    min_amount = 10
+    min_amount = 5
     max_amount = 10000
     context = {
         'user': user,
