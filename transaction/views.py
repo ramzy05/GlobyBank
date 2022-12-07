@@ -45,19 +45,21 @@ def transfer_view(request):
         'min_amount': min_amount,
         'users': users,
     }
-
+    message = None
     if request.method == 'POST':
         user_pin_code = request.POST['pin_code']
         sent_amount = decimal.Decimal(request.POST['amount'])
         received_amount = sent_amount
 
         if user_pin_code != user.code_pin:
-            return JsonResponse({'result': False, 'errors': {'code_pin': [{'message': 'Your pin code is incorrect'}]}}, safe=False, status=400)
+            message = 'Your pin code is incorrect'
+            return JsonResponse({'result': False, 'errors': {'code_pin': [{'message': message}]}}, safe=False, status=400)
         receiver = Account.objects.get(
             username=request.POST['receiver']) or None
 
         if receiver is None:
-            return JsonResponse({'result': False, 'errors': {'receiver': [{'message': 'Unkwown receiver'}]}}, safe=False, status=400)
+            message = 'Unkwown receiver'
+            return JsonResponse({'result': False, 'errors': {'receiver': [{'message': message}]}}, safe=False, status=400)
         # Everything is good we can make the transaction between the too user
         user.balance -= sent_amount
         if user.balance <= 0:
@@ -68,7 +70,8 @@ def transfer_view(request):
         new_transaction = Transaction.objects.create(
             orderer=user, receiver=receiver, amount_sent=sent_amount, amount_received=received_amount)
         if new_transaction:
-            return JsonResponse({'result': True, 'url': '/home'}, safe=False, status=201)
+            message = 'Transaction has been completed'
+            return JsonResponse({'result': True,'message':message, 'url': '/home'}, safe=False, status=201)
 
         return JsonResponse({'result': False, 'errors': 'server internal error'}, safe=False, status=500)
 
@@ -86,20 +89,21 @@ def recharge_withdraw_view(request, action):
         'max_amount': max_amount,
         'min_amount': min_amount
     }
-
+    message =  None
     if request.method == 'POST':
         user_pin_code = request.POST['pin_code']
         amount = decimal.Decimal(request.POST['amount'])
         action = request.POST['action'] or None
 
         if user_pin_code != user.code_pin:
-            return JsonResponse({'result': False, 'errors': {'code_pin': [{'message': 'Your pin code is incorrect'}]}}, safe=False, status=400)
+            message = 'Your pin code is incorrect'
+            return JsonResponse({'result': False, 'errors': {'code_pin': [{'message': message}]}}, safe=False, status=400)
         message = ''
         sent_amount = 0
         received_amount = 0
         if action == 'withdraw':
             user.balance -= amount
-            message = 'Your withdrawal end successfully'
+            message = 'Your withdrawal has been complete successfully'
             sent_amount = amount
             if user.balance <= 0:
                 user.balance = 0.00
@@ -107,7 +111,7 @@ def recharge_withdraw_view(request, action):
         elif action == 'recharge':
             user.balance += amount
             received_amount = amount
-            message = 'Your account has been credited successfully'
+            message = 'Your Deposit has been complete successfully'
 
         user.save(update_fields=['balance'])
         new_transaction = Transaction.objects.create(
