@@ -81,3 +81,7 @@ class Account(AbstractBaseUser):
     @property
     def get_country_currency(self):
         return 'XAF'
+
+    @property
+    def get_fullname(self):
+        return self.first_name + ' ' + self.last_name

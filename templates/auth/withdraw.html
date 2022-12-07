@@ -1,10 +1,6 @@
 {% extends 'base.html' %} {% load static %} {% block title %} withdrawal
 {%endblock title %} {% block content %}
-<style>
-	.form-container form {
-		justify-content: center;
-	}
-</style>
+
 <div class="main-content form">
 	<div class="grid form">
 		<h2>Withdrawal</h2>
@@ -36,6 +32,7 @@
 						id="id_code_pin"
 						maxlength="4"
 						placeholder="exemple: 1234"
+						inputmode="numeric"
 					/>
 				</div>
 

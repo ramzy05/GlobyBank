@@ -21,12 +21,22 @@ def home_view(request):
 @login_required(login_url='login')
 def transfer_view(request):
     user = request.user
-    context = {'user': user}
+    min_amount = 10
+    max_amount = user.balance
+    users = Account.objects.exclude(username=user.username)
+
+    context = {
+        'user': user,
+        'currency': 'XAF',
+        'max_amount': max_amount,
+        'min_amount': min_amount,
+        'users': users,
+    }
 
     if request.method == 'POST':
-        user_pin_code = request.POST['code_pin']
-        withdrawed_amount = decimal.Decimal(request.POST['amount'])
-        received_amount = withdrawed_amount
+        user_pin_code = request.POST['pin_code']
+        sent_amount = decimal.Decimal(request.POST['amount'])
+        received_amount = sent_amount
 
         if user_pin_code != user.code_pin:
             return JsonResponse({'result': False, 'errors': {'code_pin': [{'message': 'Your pin code is incorrect'}]}}, safe=False, status=400)
@@ -36,12 +46,14 @@ def transfer_view(request):
         if receiver is None:
             return JsonResponse({'result': False, 'errors': {'receiver': [{'message': 'Unkwown receiver'}]}}, safe=False, status=400)
         # Everything is good we can make the transaction between the too user
-        user.balance -= withdrawed_amount
+        user.balance -= sent_amount
+        if user.balance <= 0:
+            user.balance = 0.00
         receiver.balance += received_amount
         user.save(update_fields=['balance'])
         receiver.save(update_fields=['balance'])
         new_transaction = Transaction.objects.create(
-            sender=user, receiver=receiver, amount_sent=withdrawed_amount, amount_received=received_amount)
+            orderer=user, receiver=receiver, amount_sent=sent_amount, amount_received=received_amount)
         if new_transaction:
             return JsonResponse({'result': True, 'url': '/home'}, safe=False, status=201)
 
@@ -53,7 +65,7 @@ def transfer_view(request):
 @login_required(login_url='login')
 def recharge_withdraw_view(request, action):
     user = request.user
-    min_amount = 50
+    min_amount = 10
     max_amount = 10000
     context = {
         'user': user,

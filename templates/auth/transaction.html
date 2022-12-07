@@ -1,51 +1,38 @@
-{% extends 'base.html' %}
-{% load static %}
+{% extends 'base.html' %} {% load static %} {% block title %} Transaction
+{%endblock title %} {% block content %}
+<div class="main-content form">
+	<div class="grid form">
+		<h2>Send Money</h2>
 
-
-{% block title %}
-    Transaction
-{% endblock title %}
-
-{% block content %}
-<div class="main-content form ">
-    <div class="grid form">
-        <h2>New Transaction</h2>
-      
-        <div class="form-container">
-            <div id="message-box" class="">
-                <p></p>
-            </div>
-            <form action="" method="post" id="transac-form">
-                {% csrf_token %}
-                <div hidden  id="spinner"></div>
-                <div class="form-control">
-                    <label for="id_country">Receiver's country</label>
-                    <select name="country" id="id_country">
-						<option value=" " selected>Choose the country</option>
-						{% for country in countries %}
-						<option value="{{country.name}}">{{country.name}}</option>
-						{% endfor %}
-					</select>
+		<div class="form-container">
+			<div id="message-box" class="">
+				<p></p>
+			</div>
+			<form action="" method="post" id="form">
+				{% csrf_token %}
+				<div hidden id="spinner">
+					<p></p>
 				</div>
 				<div class="form-control">
 					<label for="id_receiver">Receiver</label>
 					<select name="receiver" id="id_receiver">
-                        <option value=' ' selected>Choose the receiver</option>
-                    </select>
-                </div>
-                <div class="form-control">
-                    <label for="id_amount">From <span>{{request.user.get_country_currency}}</span></label>
-                    <input type="number" value="6" name="amount" id="id_amount" min="6" max={{request.user.balance}}  step="0.01">
-                    
-                </div>
-                <div class="form-control">
-                    <label for="id_amount_converted">To <span></span></label>
+						<option value=" " selected>Choose the receiver</option>
+						{% for other_user in users %}
+						<option value="{{other_user.username}}">
+							{{other_user.get_fullname}}
+						</option>
+						{% endfor %}
+					</select>
+				</div>
+				<div class="form-control">
+					<label for="id_amount">Amount in <span>{{currency}}</span></label>
 					<input
 						type="number"
-						min="6"
-						value=""
-						name="amount_converted"
-						id="id_amount_converted"
+						value="{{min_amount}}"
+						name="amount"
+						id="id_amount"
+						min="min_amount"
+						max="{{max_amount}}"
 						step="0.01"
 					/>
 				</div>
@@ -57,6 +44,7 @@
 						id="id_code_pin"
 						maxlength="4"
 						placeholder="exemple: 1234"
+						inputmode="numeric"
 					/>
 				</div>
 

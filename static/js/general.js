@@ -31,3 +31,12 @@ function imposeMinMax(el) {
 		}
 	}
 }
+
+function handleChangeOnAmountInput(e) {
+	imposeMinMax(e.target);
+}
+function typeOnlyDigits(e) {
+	if (e.which < 48 || e.which > 57) {
+		e.preventDefault();
+	}
+}

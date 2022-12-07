@@ -6,16 +6,6 @@ const submitBtn = document.querySelector('#submit-btn');
 currencyInput.onchange = handleChangeOnAmountInput;
 codePin.addEventListener('keypress', typeOnlyDigits);
 
-function typeOnlyDigits(e) {
-	if (e.which < 48 || e.which > 57) {
-		e.preventDefault();
-	}
-}
-
-function handleChangeOnAmountInput(e) {
-	imposeMinMax(e.target);
-}
-
 function inputsAreNotBlank() {
 	return currencyInput.value != '' && codePin.value != '';
 }
