@@ -17,7 +17,7 @@ def registration_view(request):
         form = CreateAccountForm(request.POST)
         if form.is_valid():
             form.save()
-            return JsonResponse({'result': True, 'url': '/login'}, safe=False, status=201)
+            return JsonResponse({'result': True, 'url': '/auth/login'}, safe=False, status=201)
         else:
             return JsonResponse({'result': False, 'errors': json.loads(form.errors.as_json())}, safe=False, status=400)
     context = {
