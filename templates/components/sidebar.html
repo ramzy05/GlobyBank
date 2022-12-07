@@ -1,5 +1,6 @@
+{% load static %}
 <div class="side-bar container">
-    <span class="logo"><span>E</span>asy<span>E</span>xch<span>a</span>nge</span>
+    <img src="{% static 'images/logo.png' %}" alt="logo">
     <nav>
         <ul class="nav-links">
             <li><a href="{% url 'home' %}" class="home"><i class="uil uil-home"></i> Home</a></li>

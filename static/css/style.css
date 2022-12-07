@@ -9,8 +9,7 @@
     --success:rgb(9, 143, 80);
     --error:rgb(248, 71, 71);
    --gray-color:#303942;
-    --accent-color:rgb(228, 157, 34);
-    --accent-color:rgb(235, 25, 155);
+    --accent-color:#FF9E1B;
     --white:rgb(218, 237, 253);
     --white-bg:#cbd0d6;
     --border-radius:1.5rem;
@@ -319,7 +318,8 @@ td.amount{
     height: 100%;
     border-radius: var(--border-radius);
     /* From https://css.glass */
-background: rgba(235, 25, 155, 0.158);
+background:#e6b26f71;
+;
 border-radius: 16px;
 box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 backdrop-filter: blur(3.8px);
