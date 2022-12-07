@@ -23,7 +23,7 @@ class HomeView(TemplateView,LoginRequiredMixin):
     def get(self, request):
         user = self.request.user
         transactions = Transaction.objects.filter(Q(orderer=user) | Q(receiver=user)
-                                                )
+                                                ).order_by('-created')
         # to get index for the table
         transactions = [[i+1, t, get_type_of_transaction(user, t.orderer, t.receiver, t.amount_sent, t.amount_received)] for i, t in enumerate(transactions)]
         context = {'transactions': transactions, 'currency' :'XAF'}
