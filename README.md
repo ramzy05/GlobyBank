@@ -9,6 +9,5 @@
  - run **pyton install -r requirements.txt**
  
  Assuming that all project dependencies have been installed:
- - cd **GlobyBank**
  - run **python manage.py collectstatic**
  - run **python manage.py runserver**
