@@ -25,6 +25,3 @@ class Transaction(AbstractTransaction):
     amount_sent = models.DecimalField(
         max_digits=100, decimal_places=2, default=0.00)
 
-
-class SelfTransaction(AbstractTransaction):
-    withdrawed = models.BooleanField(default=False)
