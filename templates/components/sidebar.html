@@ -1,0 +1,38 @@
+{% load static %}
+<div class="side-bar container">
+    <img src="{% static 'images/logo.png' %}" alt="logo">
+    <nav>
+        <ul class="nav-links">
+            <li><a href="{% url 'home' %}" class="home"><i class="uil uil-home"></i> Home</a></li>
+            <li><a href="{% url 'transfer' %}" class="transact"><i class="uil uil-arrow-circle-right"></i> Tranfer</a></li>
+            <li><a href="{% url 'withdraw_recharge' action='recharge' %}">
+                <i class="uil uil-money-insert"></i>
+                <span>Deposit</span>
+            </a></li>
+            <li><a href="{% url 'withdraw_recharge' action='withdraw' %}">
+                <i class="uil uil-money-withdraw"></i>
+                <span>Withdraw</span>
+            </a></li>
+            <li><a href="{% url 'history' %}" class="history"><i class="uil uil-history"></i> History</a></li>
+        </ul>
+        
+    </nav>
+    <div>
+        {% if request.user.is_authenticated %}
+        <div class="side_bar_balance"><p><i class="uil uil-wallet"></i><span>XAF {{request.user.balance}}</span></p></div>
+
+        <div>
+            
+            <p><i class="uil uil-user-circle"></i>  {{request.user.get_fullname}}</p>
+            <span>@{{request.user.username}}</span>
+        </div>
+        {% endif %}
+        {% if request.user.is_authenticated %}
+        <a href="{% url 'logout' %}"><i class="uil uil-signout"></i>  Log Out</a>
+        {% else %}
+        <a href="{% url 'register' %}">Register</a>
+        <a href="{% url 'login' %}"><i class="uil uil-signin"></i>  Log In</a>
+        {% endif %}
+
+    </div>
+</div>

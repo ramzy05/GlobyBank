@@ -1,0 +1,50 @@
+{% extends 'base.html' %} {% load static %} {% block title %} Transaction
+{%endblock title %} {% block content %}
+
+<div class="main-content form">
+	<div class="grid form">
+		<h2>Withdrawal</h2>
+
+		<div class="form-container">
+			<div id="message-box" class="">
+				<p></p>
+			</div>
+			<form action="" method="post" id="form" data-action="withdraw">
+				{% csrf_token %}
+				<div hidden id="spinner"></div>
+				<div class="form-control">
+					<label for="id_amount">Amount in <span>{{currency}}</span></label>
+					<input
+						type="number"
+						value="{{min_amount}}"
+						name="amount"
+						id="id_amount"
+						min="{{min_amount}}"
+						max="{{user.balance}}"
+						step="0.01"
+					/>
+				</div>
+				<div class="form-control">
+					<label for="id_code_pin">Pin Code</label>
+					<input
+						type="password"
+						name="pin_code"
+						id="id_code_pin"
+						maxlength="4"
+						placeholder="exemple: 1234"
+						inputmode="numeric"
+					/>
+				</div>
+
+				<button type="submit" id="submit-btn">Validate</button>
+			</form>
+		</div>
+	</div>
+</div>
+
+{% endblock content %} {% block scripts %}
+
+<script src="{% static 'js/display_message.js' %}"></script>
+<script src="{% static 'js/withdraw_recharge.js' %}"></script>
+
+{% endblock scripts %}
