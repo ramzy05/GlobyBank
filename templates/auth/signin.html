@@ -15,6 +15,9 @@
 				<p></p>
 			</div>
 			<form action="" method="post" id="signin-form">
+                {%csrf_token%}
+				<div hidden id="spinner">
+				</div>
 				<div class="form-control">
 					{{form.username.label_tag}} {{form.username}}
 				</div>

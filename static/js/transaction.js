@@ -9,6 +9,7 @@ function inputsAreNotBlank() {
 }
 function handleTransactionFormDidSubmit(e) {
 	e.preventDefault();
+	spinner.removeAttribute('hidden');
 	const myForm = e.target;
 	const myFormData = new FormData(myForm);
 	const url = myForm.getAttribute('action');
@@ -19,6 +20,7 @@ function handleTransactionFormDidSubmit(e) {
 		xhr.responseType = responseType;
 		xhr.open(method, url);
 		xhr.onload = function () {
+			spinner.setAttribute('hidden', false);
 			if (xhr.status === 201) {
 				// console.log(xhr.response)
 				// myForm.reset()
@@ -37,6 +39,7 @@ function handleTransactionFormDidSubmit(e) {
 		};
 		xhr.send(myFormData);
 	} else {
+		spinner.setAttribute('hidden', false);
 		displayMessage('please fill all the fields', 'error');
 	}
 }

@@ -1,5 +1,6 @@
 function handleAccountCreateFormDidSubmit(event){
     event.preventDefault()
+    spinner.removeAttribute('hidden');
     const myForm = event.target
     const myFormData = new FormData(myForm)
     const url = myForm.getAttribute('action')
@@ -11,6 +12,7 @@ function handleAccountCreateFormDidSubmit(event){
     xhr.open(method, url)
     xhr.setRequestHeader('X-CSRFToken', csrftoken)
     xhr.onload =  function(){
+        spinner.setAttribute('hidden', false);
         if(xhr.status === 200){
             // console.log(xhr.response)
             // myForm.reset()

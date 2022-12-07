@@ -4,8 +4,12 @@ const currencyInput = document.querySelector('#id_amount');
 
 const submitBtn = document.querySelector('#submit-btn');
 
-currencyInput.addEventListener('blur', handleChangeOnAmountInput)
-codePin.addEventListener('keypress', typeOnlyDigits);
+if(currencyInput){
+	currencyInput.addEventListener('blur', handleChangeOnAmountInput)
+}
+if(codePin){
+	codePin.addEventListener('keypress', typeOnlyDigits);
+}
 
 function getCookie(name) {
 	let cookieValue = null;

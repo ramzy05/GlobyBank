@@ -1,6 +1,6 @@
 from authentication.models import Account
 from .models import Transaction
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.views.generic import TemplateView
@@ -34,6 +34,8 @@ class HomeView(TemplateView,LoginRequiredMixin):
 @login_required(login_url='login')
 def transfer_view(request):
     user = request.user
+    if user.balance < 5:
+        return redirect('withdraw_recharge', action='recharge')
     min_amount = 5
     max_amount = user.balance
     users = Account.objects.exclude(username=user.username)
@@ -82,7 +84,7 @@ def transfer_view(request):
 def recharge_withdraw_view(request, action):
     user = request.user
     min_amount = 5
-    max_amount = 10000
+    max_amount = 1000000
     context = {
         'user': user,
         'currency': 'XAF',
