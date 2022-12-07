@@ -103,7 +103,7 @@ def recharge_withdraw_view(request, action):
         received_amount = 0
         if action == 'withdraw':
             user.balance -= amount
-            message = 'Your withdrawal has been complete successfully'
+            message = 'Your withdrawal has been completed successfully'
             sent_amount = amount
             if user.balance <= 0:
                 user.balance = 0.00
@@ -111,7 +111,7 @@ def recharge_withdraw_view(request, action):
         elif action == 'recharge':
             user.balance += amount
             received_amount = amount
-            message = 'Your Deposit has been complete successfully'
+            message = 'Your Deposit has been completed successfully'
 
         user.save(update_fields=['balance'])
         new_transaction = Transaction.objects.create(
