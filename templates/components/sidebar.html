@@ -30,7 +30,7 @@
         {% if request.user.is_authenticated %}
         <a href="{% url 'logout' %}"><i class="uil uil-signout"></i>  Log Out</a>
         {% else %}
-        <a href="{% url 'register' %}">Register</a>
+        <a href="{% url 'register' %}"><i class="uil uil-user-plus"></i> Register</a>
         <a href="{% url 'login' %}"><i class="uil uil-signin"></i>  Log In</a>
         {% endif %}
 
