@@ -10,4 +10,5 @@
  
  Assuming that all projects depencies have been installed:
  - cd **GlobyBank**
- - run python manage.py runserver
+ - run **python manage.py collectstatic**
+ - run **python manage.py runserver**
