@@ -15,12 +15,13 @@
                 <thead>
                     <tr>
                         <th>N°</th>
-                        <th>Sender</th>
-                        <th>Amount <i class="uil uil-arrow-up-right"></i></th>
+                        <th>Orderer</th>
+                        <th>Amount ({{currency}}) <i class="uil uil-arrow-up-right"></i></th>
                         <th>Receiver</th>
-                        <th>Amount <i class="uil uil-arrow-down-left"></i></th>
+                        <th>Amount ({{currency}}) <i class="uil uil-arrow-down-left"></i></th>
                         <th>Day</th>
                         <th>Time</th>
+						<th>Type</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -30,12 +31,13 @@
 
                     <tr>
                         <td>{{trans.0}}</td>
-                        <td>{{trans.1.sender|format_user:request.user}}</td>
-                        <td class="amount amount-sent">{{trans.1.get_amount_sent}}</td>
+                        <td>{{transactions.0.1.orderer|format_user:request.user}}</td>
+                        <td class="amount amount-sent">{{trans.1.amount_sent}}</td>
                         <td>{{trans.1.receiver|format_user:request.user}}</td>
-                        <td class="amount amount-received">{{trans.1.get_amount_received}}</td>
+                        <td class="amount amount-received">{{trans.1.amount_received}}</td>
                         <td>{{trans.1.created|date:"D d M Y"}}</td>
                         <td>{{trans.1.created|time:"H:i:s"}}</td>
+                        <td>{{trans.2}}</td>
                     </tr>
                     {% endfor %}
                     {% endif %}

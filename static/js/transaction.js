@@ -1,13 +1,4 @@
-const codePin = document.getElementById('id_code_pin');
-const countryInput = document.getElementById('id_country');
 const receiverInput = document.getElementById('id_receiver');
-
-const currencyInput = document.querySelector('#id_amount');
-
-const submitBtn = document.querySelector('#submit-btn');
-
-currencyInput.onchange = handleChangeOnAmountInput;
-codePin.addEventListener('keypress', typeOnlyDigits);
 
 function inputsAreNotBlank() {
 	return (

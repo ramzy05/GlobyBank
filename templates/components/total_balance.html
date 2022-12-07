@@ -1,0 +1,23 @@
+<div class="total-bal">
+    <div class="total">
+        <span>Total balance</span>
+        <div>
+            <sup class="currency">{{request.user.get_country_currency}}</sup>
+            <span class="balance">{{request.user.balance}}</span>
+        </div>
+    </div>
+    <div class="total code-pin-box">
+        <span>You pin code</span>
+        <div>
+            <span
+                class="code-pin"
+                id="code-pin"
+                data-code="{{request.user.code_pin}}"
+                >* * * *</span
+            >
+            <span id="code-pin-toggle"
+                ><i class="uil-eye-slash"></i><i class="uil-eye"></i
+            ></span>
+        </div>
+    </div>
+</div>

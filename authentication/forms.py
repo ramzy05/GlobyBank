@@ -70,14 +70,14 @@ class CreateAccountForm(UserCreationForm):
         first_name = self.cleaned_data.get('first_name')
         if first_name == '':
             raise forms.ValidationError("First name field cannot be blank")
-
+        first_name = first_name[0].upper() + first_name[1:]
         return first_name
 
     def clean_last_name(self):
         last_name = self.cleaned_data.get('last_name')
         if last_name == '':
             raise forms.ValidationError("Last name field cannot be blank")
-
+        last_name = last_name[0].upper() + last_name[1:]
         return last_name
 
     def clean_country(self):

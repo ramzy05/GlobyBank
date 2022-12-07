@@ -3,15 +3,22 @@
     <nav>
         <ul class="nav-links">
             <li><a href="{% url 'home' %}" class="home"><i class="uil uil-home"></i> Home</a></li>
-            {% comment%}
-            <li><a href="{% url 'make_transaction' %}" class="transact"><i class="uil uil-exchange-alt"></i> Transactions</a></li>
+            <li><a href="{% url 'transfer' %}" class="transact"><i class="uil uil-arrow-circle-right"></i> Tranfer</a></li>
+            <li><a href="{% url 'withdraw_recharge' action='recharge' %}">
+                <i class="uil uil-money-insert"></i>
+                <span>Deposit</span>
+            </a></li>
+            <li><a href="{% url 'withdraw_recharge' action='withdraw' %}">
+                <i class="uil uil-money-withdraw"></i>
+                <span>Withdraw</span>
+            </a></li>
             <li><a href="{% url 'history' %}" class="history"><i class="uil uil-history"></i> History</a></li>
-            {% endcomment%}
         </ul>
         
     </nav>
     <div>
         {% if request.user.is_authenticated %}
+        <div class="side_bar_balance"><p><i class="uil uil-wallet"></i><span>XAF {{request.user.balance}}</span></p></div>
 
         <div>
             

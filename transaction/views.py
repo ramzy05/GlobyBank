@@ -1,21 +1,34 @@
 from authentication.models import Account
-from .models import Transaction, SelfTransaction
+from .models import Transaction
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.views.generic import TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 import decimal
-
+from .utils import get_type_of_transaction
 
 def welcome_view(request):
     context = {}
     return render(request, 'auth/index.html', context)
 
 
-@login_required(login_url='login')
-def home_view(request):
-    context = {'transactions': {}}
-    return render(request, 'auth/home.html', context)
+
+class HomeView(TemplateView,LoginRequiredMixin):
+    template_name = 'auth/home.html'
+    login_url = 'login'
+
+   
+    def get(self, request):
+        user = self.request.user
+        transactions = Transaction.objects.filter(Q(orderer=user) | Q(receiver=user)
+                                                )
+        # to get index for the table
+        transactions = [[i+1, t, get_type_of_transaction(user, t.orderer, t.receiver, t.amount_sent, t.amount_received)] for i, t in enumerate(transactions)]
+        context = {'transactions': transactions, 'currency' :'XAF'}
+        return render(request, self.template_name,  context)
+    
 
 
 @login_required(login_url='login')
@@ -59,7 +72,7 @@ def transfer_view(request):
 
         return JsonResponse({'result': False, 'errors': 'server internal error'}, safe=False, status=500)
 
-    return render(request, 'auth/transaction.html',  context)
+    return render(request, 'auth/transfer.html',  context)
 
 
 @login_required(login_url='login')
@@ -81,25 +94,31 @@ def recharge_withdraw_view(request, action):
 
         if user_pin_code != user.code_pin:
             return JsonResponse({'result': False, 'errors': {'code_pin': [{'message': 'Your pin code is incorrect'}]}}, safe=False, status=400)
-        is_withrawed = False
         message = ''
+        sent_amount = 0
+        received_amount = 0
         if action == 'withdraw':
             user.balance -= amount
             message = 'Your withdrawal end successfully'
+            sent_amount = amount
             if user.balance <= 0:
                 user.balance = 0.00
 
         elif action == 'recharge':
-            is_withrawed = True
             user.balance += amount
+            received_amount = amount
             message = 'Your account has been credited successfully'
 
         user.save(update_fields=['balance'])
-        new_transaction = SelfTransaction.objects.create(
-            orderer=user, amount=amount, withdrawed=is_withrawed)
+        new_transaction = Transaction.objects.create(
+            orderer=user, receiver=user, amount_sent=sent_amount, amount_received=received_amount)
+       
         if new_transaction:
             return JsonResponse({'result': True, 'message': message, 'url': '/home'}, safe=False, status=201)
 
         return JsonResponse({'result': False, 'errors': 'server internal error'}, safe=False, status=500)
 
     return render(request, f'auth/{action}.html',  context)
+
+class HistoryView(HomeView):
+    template_name  = 'auth/history.html'

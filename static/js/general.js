@@ -1,4 +1,12 @@
 const spinner = document.getElementById('spinner');
+const codePin = document.getElementById('id_code_pin');
+const currencyInput = document.querySelector('#id_amount');
+
+const submitBtn = document.querySelector('#submit-btn');
+
+currencyInput.addEventListener('blur', handleChangeOnAmountInput)
+codePin.addEventListener('keypress', typeOnlyDigits);
+
 function getCookie(name) {
 	let cookieValue = null;
 	if (document.cookie && document.cookie !== '') {
@@ -29,10 +37,13 @@ function imposeMinMax(el) {
 		if (parseInt(el.value) > parseInt(el.max)) {
 			el.value = el.max;
 		}
+	}else{
+		el.value = el.min;
 	}
 }
 
 function handleChangeOnAmountInput(e) {
+	console.log(e.target);
 	imposeMinMax(e.target);
 }
 function typeOnlyDigits(e) {
