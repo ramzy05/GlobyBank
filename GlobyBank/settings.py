@@ -16,7 +16,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = str(os.getenv('SECRET_KEY', 'Mykey'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG')
+DEBUG = str(os.getenv('DEBUG')) == '0'
 
 ALLOWED_HOSTS = ["globybank.onrender.com"]
 
