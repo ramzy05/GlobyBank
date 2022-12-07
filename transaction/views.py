@@ -51,32 +51,43 @@ def transfer_view(request):
 
 
 @login_required(login_url='login')
-def recharge_withdraw_view(request):
+def recharge_withdraw_view(request, action):
     user = request.user
-    context = {'user': user}
+    min_amount = 50
+    max_amount = 10000
+    context = {
+        'user': user,
+        'currency': 'XAF',
+        'max_amount': max_amount,
+        'min_amount': min_amount
+    }
 
     if request.method == 'POST':
-        user_pin_code = request.POST['code_pin']
+        user_pin_code = request.POST['pin_code']
         amount = decimal.Decimal(request.POST['amount'])
-        action = decimal.Decimal(request.POST['action'])
+        action = request.POST['action'] or None
 
         if user_pin_code != user.code_pin:
             return JsonResponse({'result': False, 'errors': {'code_pin': [{'message': 'Your pin code is incorrect'}]}}, safe=False, status=400)
         is_withrawed = False
+        message = ''
         if action == 'withdraw':
             user.balance -= amount
+            message = 'Your withdrawal end successfully'
             if user.balance <= 0:
                 user.balance = 0.00
+
         elif action == 'recharge':
             is_withrawed = True
             user.balance += amount
+            message = 'Your account has been credited successfully'
 
         user.save(update_fields=['balance'])
         new_transaction = SelfTransaction.objects.create(
-            orderer=user, amount=amount, withdrowed=is_withrawed)
+            orderer=user, amount=amount, withdrawed=is_withrawed)
         if new_transaction:
-            return JsonResponse({'result': True, 'url': '/home'}, safe=False, status=201)
+            return JsonResponse({'result': True, 'message': message, 'url': '/home'}, safe=False, status=201)
 
         return JsonResponse({'result': False, 'errors': 'server internal error'}, safe=False, status=500)
 
-    return render(request, 'auth/recharge.html',  context)
+    return render(request, f'auth/{action}.html',  context)

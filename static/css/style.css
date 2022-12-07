@@ -433,20 +433,19 @@ select {
 
 #message-box{
     display: none;
-    align-items: center;
-    justify-content: center;
     position: absolute;
     top:  0.5rem;
     left: 50%;
     transform: translateX(-50%);
     min-width: 60%;
-    height: 60px;
-    background: transparent;
-    border-radius: var(--border-radius);
-    color:var(--gray-color) ;
+    min-height: 60px;
+    background: var(--white);
     font-size: 1.04rem;
+    padding: 10px;
 }
-
+#message-box p{
+    text-align: center;
+}
 #message-box.error{
     color:var(--error) ;
 }
@@ -457,6 +456,8 @@ select {
 
 #message-box.show{
     display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 

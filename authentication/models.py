@@ -77,3 +77,7 @@ class Account(AbstractBaseUser):
     @property
     def get_balance(self):
         return f'XAF {self.balance}'
+
+    @property
+    def get_country_currency(self):
+        return 'XAF'
