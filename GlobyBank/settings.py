@@ -20,7 +20,7 @@ DEBUG = os.getenv('DEBUG')
 
 ALLOWED_HOSTS = []
 if not DEBUG:
-    ALLOWED_HOSTS +[str(os.getenv('HOST'))]
+    ALLOWED_HOSTS.append(str(os.getenv('HOST')))
 
 
 # Application definition
