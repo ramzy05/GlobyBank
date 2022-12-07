@@ -1,3 +1,12 @@
 env
 */__pycache__
 .env
+.env/
+.venv/
+env/
+venv/
+*.env
+
+*.pyc
+db.sqlite3
+staticfiles/
